@@ -1,0 +1,26 @@
+{
+  "name": "olx-crawler",
+  "version": "0.1.0",
+  "description": "OLX Crawler and New Ad Alert on Blynk App",
+  "main": "olx-crawler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified! Configure in package.json\" && exit 1"
+  },
+  "repository": "",
+  "keywords": [
+    "node.js",
+    "eclipse",
+    "nodeclipse"
+  ],
+  "author": "kiliyani",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "dependencies": {
+    "blynk-library": "^0.5.4",
+    "crawler": "^1.2.0",
+    "md5": "^2.2.1",
+    "mysql": "^2.16.0",
+    "node-rest-client": "^3.1.0",
+    "node-schedule": "^1.3.2"
+  }
+}
