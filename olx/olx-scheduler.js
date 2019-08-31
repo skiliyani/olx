@@ -14,7 +14,7 @@ var pool  = mysql.createPool({
 	  timeout         : 60 * 60 * 1000
 });
 
-var j = schedule.scheduleJob('*/5 * * * * *', function(){
+var j = schedule.scheduleJob('*/1 * * * *', function(){
 	
 	console.log('Starting OLX search at ' + new Date());
 	
@@ -52,6 +52,12 @@ var j = schedule.scheduleJob('*/5 * * * * *', function(){
 });
 
 function search(searchId, searchTerm, page) {
+	
+	if(page > 49) {
+		console.log("Page limit reached: %d", page);
+		return;
+	}
+	
 	request.get({"headers": { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36" }, 
 		"url":"https://www.olx.in/api/relevance/search?facet_limit=1&location=1000001&query=" + searchTerm + "&page=" + page}, 
 			(error, response, body) => {
@@ -61,9 +67,7 @@ function search(searchId, searchTerm, page) {
 				
 			    var json = JSON.parse(body);
 			    
-			    console.log(json.data.length);
-			    
-			    if(json.data.length == 0) {
+			    if(json.data && json.data.length == 0) {
 			    	return;
 			    }
 			    
