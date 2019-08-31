@@ -25,7 +25,7 @@ var j = schedule.scheduleJob('*/5 * * * * *', function(){
 				function(error, results, fields) {
 					results.forEach(function(row) {
 						console.log("Searching %s",row.search_term);
-						search(row.id,row.search_term);
+						search(row.id,row.search_term, 0);
 					});
 				
 				connection.query("SELECT * FROM ads WHERE notified='N'", function(error, results, fields) {
@@ -51,17 +51,27 @@ var j = schedule.scheduleJob('*/5 * * * * *', function(){
 	});
 });
 
-function search(searchId, searchTerm) {
+function search(searchId, searchTerm, page) {
 	request.get({"headers": { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36" }, 
-		"url":"https://www.olx.in/api/relevance/search?facet_limit=1&location=1000001&query=" + searchTerm + "&page=0"}, 
+		"url":"https://www.olx.in/api/relevance/search?facet_limit=1&location=1000001&query=" + searchTerm + "&page=" + page}, 
 			(error, response, body) => {
 				if(error) throw error;
 				
+				console.log("Olx: search_term: %s, page: %d", searchTerm, page);
+				
 			    var json = JSON.parse(body);
+			    
+			    console.log(json.data.length);
+			    
+			    if(json.data.length == 0) {
+			    	return;
+			    }
 			    
 			    for(var ad of json.data) {
 			    	save(searchId, ad);
 			    }
+			    
+			    search(searchId, searchTerm, ++page);
 
 			}
 		);
