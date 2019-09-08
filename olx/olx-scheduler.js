@@ -92,7 +92,9 @@ function save(searchId, ad) {
 			function(error, result) {
 				connection.release();
 				if(result.affectedRows > 0) {
-					console.log('New ad: %s', ad.title);
+					console.log('Ad New: %s', ad.title);
+				} else {
+					console.log('Ad Old: %s', ad.title);
 				}
 				if(error) throw error;
 		});
