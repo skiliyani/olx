@@ -9,8 +9,8 @@ function main() {
         port: 465,
         secure: true, // true for 465, false for other ports
         auth: {
-            user: 'sajeesh@sayanispace.com', // generated ethereal user
-            pass: '54je358*' // generated ethereal password
+            user: '', // generated ethereal user
+            pass: '*' // generated ethereal password
         }
     });
 
